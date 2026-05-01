@@ -1,8 +1,9 @@
 import React from 'react';
 import { useScrollAnimation, useCountUp } from './useScrollAnimation';
+import { useGitHubProfile } from './useGitHub';
 import './About.css';
 
-const BIO = "I'm a Computer Science rising senior at Pace University who learns best by building things. I've optimized SQL databases, automated Python workflows, and integrated third-party APIs on real teams shipping real code. I'm actively looking for a software engineering internship where I can keep growing and contribute to meaningful projects.";
+const BIO = "Born and raised in New York, I'm a Computer Science rising senior at Pace University who loves seeing ideas come to life through code. Whether it's a mobile app, a web tool, or something in between, there's nothing better than building something from scratch and watching it actually work. Outside of school I stay active lifting and playing sports, and that same drive carries into everything I build. I got into CS because I wanted to create things that make an impact, and that's still what pushes me every day.";
 
 const HIGHLIGHTS = [
   { label: 'Pace University', icon: '🎓' },
@@ -23,6 +24,8 @@ function StatCard({ number, label, visible }) {
 
 function About() {
   const [ref, visible] = useScrollAnimation(0.1);
+  const { profile } = useGitHubProfile();
+
   return (
     <section id="about" className="about">
       <div className="container">
@@ -32,6 +35,21 @@ function About() {
           <div className="about__text">
             <h2 className="section-title">Who I Am</h2>
             <p className="about__para">{BIO}</p>
+
+            {profile && (
+              <div className="about__github-pill">
+                <img src={profile.avatar_url} alt="GitHub" className="about__github-pill-avatar" />
+                <div className="about__github-pill-info">
+                  <span className="about__github-pill-name">@{profile.login}</span>
+                  <span className="about__github-pill-stats">
+                    👥 {profile.followers} followers · 📦 {profile.public_repos} repos
+                  </span>
+                </div>
+                <a href={profile.html_url} target="_blank" rel="noopener noreferrer"
+                  className="about__github-pill-link">View ↗</a>
+              </div>
+            )}
+
             <div className="about__tags">
               {HIGHLIGHTS.map((h, i) => (
                 <span key={h.label} className="about__tag"
@@ -41,8 +59,8 @@ function About() {
               ))}
             </div>
             <div style={{ marginTop: '2rem' }}>
-              <a href="#resume" className="btn btn--outline">
-                View Resume
+              <a href="/resume.pdf" download="Zoheb_Khan_Resume.pdf" className="btn btn--outline">
+                Download Resume
               </a>
             </div>
           </div>
