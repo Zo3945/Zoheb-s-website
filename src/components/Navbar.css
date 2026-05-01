@@ -189,3 +189,18 @@
 }
 .navbar__logo { color: var(--green) !important; text-shadow: 0 0 12px rgba(87,240,176,0.5); }
 .navbar__logo { color: var(--green) !important; text-shadow: 0 0 12px rgba(87,240,176,0.5); background: linear-gradient(135deg, rgba(124,106,255,0.12), rgba(87,240,176,0.06)) !important; border: 1px solid rgba(124,106,255,0.35) !important; padding: 0.45rem 1.1rem !important; border-radius: 100px !important; box-shadow: 0 0 20px rgba(124,106,255,0.15) !important; }
+
+.navbar__egg-hint {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  animation: floatUp 1.5s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+}

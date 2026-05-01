@@ -127,3 +127,20 @@
     align-items: flex-start;
   }
 }
+
+.exp-card {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
+}
+
+.exp-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(124, 106, 255, 0.25), 0 0 0 1px rgba(124, 106, 255, 0.4);
+  border-color: rgba(124, 106, 255, 0.5);
+}
+
+.exp-card:hover .exp-card__company {
+  color: var(--accent);
+  transition: color 0.2s ease;
+}
+.exp-card:hover { transform: none !important; box-shadow: 0 0 30px rgba(124,106,255,0.2), 0 0 0 1px rgba(124,106,255,0.4); border-color: rgba(124,106,255,0.5); }

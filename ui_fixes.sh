@@ -1,4 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+#!/bin/bash
+
+# Fix 1: Better card hover animation - stronger lift/pop
+cat >> src/components/Projects.css << 'EOF'
+
+/* Enhanced card pop animation */
+.project-card {
+  will-change: transform;
+}
+
+.project-card:hover {
+  transform: translateY(-12px) scale(1.03) !important;
+  box-shadow: 0 24px 60px rgba(124, 106, 255, 0.3), 0 0 0 1px rgba(124, 106, 255, 0.4) !important;
+  z-index: 2;
+}
+EOF
+
+# Fix 2: Restrict easter egg to ONLY the logo button click, not the whole navbar
+cat > src/components/Navbar.js << 'EOF'
+import React, { useState, useEffect } from 'react';
 import EasterEgg from './EasterEgg';
 import './Navbar.css';
 
@@ -11,13 +30,11 @@ const NAV_LINKS = [
 ];
 
 function Navbar() {
-  const [scrolled, setScrolled]     = useState(false);
-  const [menuOpen, setMenuOpen]     = useState(false);
-  const [active, setActive]         = useState('');
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState('');
   const [eggTrigger, setEggTrigger] = useState(0);
-  const [clicks, setClicks]         = useState(0);
-  const [hint, setHint]             = useState('');
-  const timerRef                    = useRef(null);
+  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -35,31 +52,6 @@ function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleLogoClick = (e) => {
-    e.stopPropagation();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const newClicks = clicks + 1;
-    setClicks(newClicks);
-
-    clearTimeout(timerRef.current);
-
-    if (newClicks === 1) {
-      setHint('2 more...');
-    } else if (newClicks === 2) {
-      setHint('1 more...');
-    } else if (newClicks >= 3) {
-      setEggTrigger(prev => prev + 1);
-      setHint('🚀💥');
-      setClicks(0);
-    }
-
-    timerRef.current = setTimeout(() => {
-      setClicks(0);
-      setHint('');
-    }, 2000);
-  };
-
   const handleNavClick = (href, e) => {
     e.stopPropagation();
     setMenuOpen(false);
@@ -67,14 +59,22 @@ function Navbar() {
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleLogoClick = (e) => {
+    e.stopPropagation();
+    setEggTrigger(prev => prev + 1);
+    setShowHint(true);
+    setTimeout(() => setShowHint(false), 1500);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
       <EasterEgg trigger={eggTrigger} />
       <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
         <div className="container navbar__inner">
-          <button className="navbar__logo" onClick={handleLogoClick} title="psst... try clicking 3 times">
+          <button className="navbar__logo" onClick={handleLogoClick} title="✨ try clicking me">
             Zoheb Khan
-            {hint && <span className="navbar__egg-hint">{hint}</span>}
+            {showHint && <span className="navbar__egg-hint">🚀</span>}
           </button>
           <nav className={`navbar__links ${menuOpen ? 'navbar__links--open' : ''}`}>
             {NAV_LINKS.map(link => (
@@ -99,3 +99,25 @@ function Navbar() {
   );
 }
 export default Navbar;
+EOF
+
+# Add hint style to Navbar.css
+cat >> src/components/Navbar.css << 'EOF'
+
+.navbar__egg-hint {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  animation: floatUp 1.5s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+}
+EOF
+
+echo "✅ Fixed! Cards now pop strongly, easter egg only triggers on name click!"
