@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -12,18 +12,19 @@ import ParticleBackground from './components/ParticleBackground';
 import './styles/App.css';
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState('');
   return (
     <div className="app">
       <ParticleBackground />
-      <Navbar />
+      <Navbar onSearch={setSearchQuery} />
       <main style={{ position: 'relative', zIndex: 1 }}>
-        <Hero />
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <GitHubRepos />
-        <Contact />
+        <Hero searchQuery={searchQuery} />
+        <About searchQuery={searchQuery} />
+        <Experience searchQuery={searchQuery} />
+        <Skills searchQuery={searchQuery} />
+        <Projects searchQuery={searchQuery} />
+        <GitHubRepos searchQuery={searchQuery} />
+        <Contact searchQuery={searchQuery} />
       </main>
       <Footer />
     </div>
