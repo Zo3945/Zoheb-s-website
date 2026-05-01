@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Button from './Button';
+import SearchHighlight from './SearchHighlight';
 import './Hero.css';
 
+const NAME = 'Zoheb Khan';
 const ROLES = ['Software Engineer', 'Android Developer', 'CS Rising Senior', 'Problem Solver'];
 const TAGLINE = "CS student at Pace University who loves building things and solving real problems.";
 const GITHUB_URL = 'https://github.com/Zo3945';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/zoheb-khan123/';
 
 function useTypewriter(words, speed = 80, pause = 1800) {
   const [index, setIndex] = useState(0);
@@ -33,45 +36,37 @@ function useTypewriter(words, speed = 80, pause = 1800) {
   return text;
 }
 
-function Hero() {
+function Hero({ searchQuery }) {
   const role = useTypewriter(ROLES);
   const scrollToProjects = () => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <section id="hero" className="hero">
       <div className="hero__bg-grid" aria-hidden="true" />
-
-      {/* Glowing orbs */}
       <div className="hero__orb hero__orb--1" aria-hidden="true" />
       <div className="hero__orb hero__orb--2" aria-hidden="true" />
-
       <div className="container hero__inner">
         <div className="hero__content">
           <div className="hero__eyebrow">
             <span className="hero__dot" />
             <span>Available for internships</span>
           </div>
-
           <h1 className="hero__name">
-            <span className="hero__name-line">Zoheb</span>
-            <span className="hero__name-line hero__name-line--accent">Khan</span>
+            <span className="hero__name-line"><SearchHighlight text="Zoheb" query={searchQuery} /></span>
+            <span className="hero__name-line hero__name-line--accent"><SearchHighlight text="Khan" query={searchQuery} /></span>
           </h1>
-
           <div className="hero__role-wrap">
             <span className="hero__role-label">~/ </span>
             <span className="hero__role-text">{role}</span>
             <span className="hero__cursor" aria-hidden="true">|</span>
           </div>
-
-          <p className="hero__tagline">{TAGLINE}</p>
-
+          <p className="hero__tagline"><SearchHighlight text={TAGLINE} query={searchQuery} /></p>
           <div className="hero__actions">
             <Button onClick={scrollToProjects} variant="primary">View My Work</Button>
             <Button href={GITHUB_URL} variant="ghost" external>GitHub Profile</Button>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="btn btn--linkedin">LinkedIn ↗</a>
           </div>
-
         </div>
-
         <div className="hero__right">
           <div className="hero__card-wrap">
             <div className="hero__card-border" />
@@ -88,7 +83,9 @@ function Hero() {
   school: "Pace University",
   experience: "SWE Intern",
   focus: [
+    "AI & Machine Learning",
     "Android Development",
+    "Full Stack Dev",
     "Python Automation",
     "Web Development",
   ],
@@ -102,7 +99,6 @@ function Hero() {
           </div>
         </div>
       </div>
-
       <div className="hero__scroll-hint" aria-hidden="true">
         <span>scroll</span>
         <div className="hero__scroll-arrow" />

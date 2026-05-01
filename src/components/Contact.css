@@ -15,3 +15,46 @@
 .contact__cta-text{font-size:0.92rem;color:var(--text-secondary);line-height:1.7}
 .contact__location{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);display:flex;align-items:center;gap:0.4rem;padding-top:0.25rem}
 @media(max-width:800px){.contact__layout{grid-template-columns:1fr}.contact__cta{position:static}}
+
+.contact-card--linkedin {
+  border-color: rgba(10, 102, 194, 0.4) !important;
+}
+
+.contact-card--linkedin:hover {
+  border-color: rgba(10, 102, 194, 0.8) !important;
+  box-shadow: 0 0 25px rgba(10, 102, 194, 0.25) !important;
+}
+
+.contact-card__icon--linkedin {
+  background: #0a66c2 !important;
+  border-color: #0a66c2 !important;
+  color: white !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 800 !important;
+  font-size: 0.85rem !important;
+}
+
+.contact__cta-inner {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact__cta-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(90deg, #7c6aff, #57f0b0, #7c6aff);
+  background-size: 300% 100%;
+  animation: borderTravel 2s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes borderTravel {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

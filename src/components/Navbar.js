@@ -1,27 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EasterEgg from './EasterEgg';
-import { useSearch } from './useSearch';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { label: 'about',      href: '#about' },
-  { label: 'experience', href: '#experience' },
-  { label: 'skills',     href: '#skills' },
-  { label: 'projects',   href: '#projects' },
-  { label: 'repos',      href: '#github-repos' },
-  { label: 'contact',    href: '#contact' },
+  { label: 'About',      href: '#about' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Skills',     href: '#skills' },
+  { label: 'Projects',   href: '#projects' },
+  { label: 'Repos',      href: '#github-repos' },
+  { label: 'Contact',    href: '#contact' },
 ];
 
-function Navbar() {
-  const [scrolled, setScrolled]     = useState(false);
-  const [menuOpen, setMenuOpen]     = useState(false);
-  const [active, setActive]         = useState('');
+function Navbar({ onSearch }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState('');
   const [eggTrigger, setEggTrigger] = useState(0);
-  const [clicks, setClicks]         = useState(0);
+  const [clicks, setClicks] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
-  const timerRef                    = useRef(null);
-  const searchRef                   = useRef(null);
-  const { query, setQuery: search } = useSearch();
+  const [query, setQuery] = useState('');
+  const timerRef = useRef(null);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -40,7 +39,9 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (searchOpen && searchRef.current) searchRef.current.focus();
+    if (searchOpen && searchRef.current) {
+      setTimeout(() => searchRef.current?.focus(), 100);
+    }
   }, [searchOpen]);
 
   const handleLogoClick = (e) => {
@@ -49,18 +50,35 @@ function Navbar() {
     const newClicks = clicks + 1;
     setClicks(newClicks);
     clearTimeout(timerRef.current);
-    if (newClicks >= 3) {
-      setEggTrigger(prev => prev + 1);
-      setClicks(0);
-    }
+    if (newClicks >= 3) { setEggTrigger(prev => prev + 1); setClicks(0); }
     timerRef.current = setTimeout(() => setClicks(0), 2000);
   };
 
   const handleNavClick = (href, e) => {
     e.stopPropagation();
+    e.preventDefault();
     setMenuOpen(false);
     setActive(href);
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSearchChange = (e) => {
+    e.stopPropagation();
+    const val = e.target.value;
+    setQuery(val);
+    if (onSearch) onSearch(val);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const first = document.querySelector('.search-highlight');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (e.key === 'Escape') {
+      setQuery('');
+      if (onSearch) onSearch('');
+      setSearchOpen(false);
+    }
   };
 
   return (
@@ -68,9 +86,7 @@ function Navbar() {
       <EasterEgg trigger={eggTrigger} />
       <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
         <div className="container navbar__inner">
-          <button className="navbar__logo" onClick={handleLogoClick}>
-            Zoheb Khan
-          </button>
+          <button className="navbar__logo" onClick={handleLogoClick}>Zoheb Khan</button>
           <nav className={`navbar__links ${menuOpen ? 'navbar__links--open' : ''}`}>
             {NAV_LINKS.map(link => (
               <button key={link.href}
@@ -79,18 +95,21 @@ function Navbar() {
                 {link.label}
               </button>
             ))}
-            <a href="/resume.pdf" download="Zoheb_Khan_Resume.pdf" className="navbar__resume">
-              resume ↓
+            <a href="/Zoheb-s-website/resume.pdf" download="Zoheb_Khan_Resume.pdf" className="navbar__resume">
+              Resume ↓
             </a>
           </nav>
-          <div className="navbar__search-wrap">
+          <div className="navbar__search-wrap" onClick={e => e.stopPropagation()}>
             {searchOpen ? (
               <input ref={searchRef} type="text" className="navbar__search-input"
-                placeholder="Search..." value={query}
-                onChange={e => search(e.target.value)}
-                onBlur={() => { if (!query) setSearchOpen(false); }} />
+                placeholder="Type + Enter..." value={query}
+                onChange={handleSearchChange}
+                onKeyDown={handleKeyDown}
+                onBlur={() => { if (!query) setSearchOpen(false); }}
+                onClick={e => e.stopPropagation()} />
             ) : (
-              <button className="navbar__search-btn" onClick={() => setSearchOpen(true)}>🔍</button>
+              <button className="navbar__search-btn"
+                onClick={(e) => { e.stopPropagation(); setSearchOpen(true); }}>🔍</button>
             )}
           </div>
           <button className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--open' : ''}`}
