@@ -7,7 +7,6 @@ const NAME = 'Zoheb Khan';
 const ROLES = ['Software Engineer', 'Android Developer', 'CS Rising Senior', 'Problem Solver'];
 const TAGLINE = "CS student at Pace University who loves building things and solving real problems.";
 const GITHUB_URL = 'https://github.com/Zo3945';
-const LINKEDIN_URL = 'https://www.linkedin.com/in/zoheb-khan123/';
 
 function useTypewriter(words, speed = 80, pause = 1800) {
   const [index, setIndex] = useState(0);
@@ -64,7 +63,7 @@ function Hero({ searchQuery }) {
           <div className="hero__actions">
             <Button onClick={scrollToProjects} variant="primary">View My Work</Button>
             <Button href={GITHUB_URL} variant="ghost" external>GitHub Profile</Button>
-            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="btn btn--linkedin">LinkedIn ↗</a>
+            <a href="https://www.linkedin.com/in/zoheb-khan123/" target="_blank" rel="noopener noreferrer" className="btn btn--linkedin">LinkedIn ↗</a>
           </div>
         </div>
         <div className="hero__right">

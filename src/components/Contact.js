@@ -16,9 +16,8 @@ const CONTACT_LINKS = [
 ];
 
 function ContactCard({ label, value, href, icon, external, index, visible, searchQuery }) {
-  const isLinkedIn = label === 'LinkedIn';
   return (
-    <a className={`contact-card ${isLinkedIn ? 'contact-card--linkedin' : ''}`} href={href}
+    <a className={`contact-card ${label === "LinkedIn" ? "contact-card--linkedin" : ""}`} href={href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       style={{
@@ -26,7 +25,7 @@ function ContactCard({ label, value, href, icon, external, index, visible, searc
         transform: visible ? 'translateX(0)' : 'translateX(-30px)',
         transition: `opacity 0.5s ease ${index * 0.12}s, transform 0.5s ease ${index * 0.12}s`
       }}>
-      <span className={`contact-card__icon ${isLinkedIn ? 'contact-card__icon--linkedin' : ''}`} aria-hidden="true">{icon}</span>
+      <span className={`contact-card__icon ${label === "LinkedIn" ? "contact-card__icon--linkedin" : ""}`} aria-hidden="true">{icon}</span>
       <div className="contact-card__text">
         <span className="contact-card__label"><SearchHighlight text={label} query={searchQuery} /></span>
         <span className="contact-card__value"><SearchHighlight text={value} query={searchQuery} /></span>

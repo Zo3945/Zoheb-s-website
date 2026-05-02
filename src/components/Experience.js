@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScrollAnimation } from './useScrollAnimation';
+import SearchHighlight from './SearchHighlight';
 import './Experience.css';
 
 const EXPERIENCES = [
@@ -34,7 +35,7 @@ const EXPERIENCES = [
   },
 ];
 
-function ExperienceCard({ company, role, period, location, bullets, tags, badge, index, visible }) {
+function ExperienceCard({ company, role, period, location, bullets, tags, badge, index, visible, searchQuery }) {
   return (
     <div className={`exp-card ${badge ? 'exp-card--current' : ''}`}
       style={{
@@ -44,8 +45,8 @@ function ExperienceCard({ company, role, period, location, bullets, tags, badge,
       }}>
       <div className="exp-card__header">
         <div>
-          <h3 className="exp-card__company">{company}</h3>
-          <p className="exp-card__role">{role}</p>
+          <h3 className="exp-card__company"><SearchHighlight text={company} query={searchQuery} /></h3>
+          <p className="exp-card__role"><SearchHighlight text={role} query={searchQuery} /></p>
         </div>
         <div className="exp-card__meta">
           {badge && <span className="exp-card__badge">{badge}</span>}
@@ -54,16 +55,16 @@ function ExperienceCard({ company, role, period, location, bullets, tags, badge,
         </div>
       </div>
       <ul className="exp-card__bullets">
-        {bullets.map((b, i) => <li key={i}>{b}</li>)}
+        {bullets.map((b, i) => <li key={i}><SearchHighlight text={b} query={searchQuery} /></li>)}
       </ul>
       <div className="exp-card__tags">
-        {tags.map(t => <span key={t} className="exp-card__tag">{t}</span>)}
+        {tags.map(t => <span key={t} className="exp-card__tag"><SearchHighlight text={t} query={searchQuery} /></span>)}
       </div>
     </div>
   );
 }
 
-function Experience() {
+function Experience({ searchQuery }) {
   const [ref, visible] = useScrollAnimation(0.05);
   return (
     <section id="experience" className="experience">
@@ -73,7 +74,7 @@ function Experience() {
         <p className="section-subtitle">Real teams, real code, real impact.</p>
         <div className="exp-list" ref={ref}>
           {EXPERIENCES.map((e, i) => (
-            <ExperienceCard key={e.company} {...e} index={i} visible={visible} />
+            <ExperienceCard key={e.company} {...e} index={i} visible={visible} searchQuery={searchQuery} />
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useScrollAnimation, useCountUp } from './useScrollAnimation';
-import { useGitHubProfile } from './useGitHub';
+import SearchHighlight from './SearchHighlight';
 import './About.css';
 
 const BIO = "Born and raised in New York, I'm a Computer Science rising senior at Pace University who loves seeing ideas come to life through code. Whether it's a mobile app, a web tool, or something in between, there's nothing better than building something from scratch and watching it actually work. Outside of school I stay active lifting and playing sports, and that same drive carries into everything I build. I got into CS because I wanted to create things that make an impact, and that's still what pushes me every day.";
@@ -22,10 +22,8 @@ function StatCard({ number, label, visible }) {
   );
 }
 
-function About() {
+function About({ searchQuery }) {
   const [ref, visible] = useScrollAnimation(0.1);
-  const { profile } = useGitHubProfile();
-
   return (
     <section id="about" className="about">
       <div className="container">
@@ -34,32 +32,17 @@ function About() {
           style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(40px)', transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
           <div className="about__text">
             <h2 className="section-title">Who I Am</h2>
-            <p className="about__para">{BIO}</p>
-
-            {profile && (
-              <div className="about__github-pill">
-                <img src={profile.avatar_url} alt="GitHub" className="about__github-pill-avatar" />
-                <div className="about__github-pill-info">
-                  <span className="about__github-pill-name">@{profile.login}</span>
-                  <span className="about__github-pill-stats">
-                    👥 {profile.followers} followers · 📦 {profile.public_repos} repos
-                  </span>
-                </div>
-                <a href={profile.html_url} target="_blank" rel="noopener noreferrer"
-                  className="about__github-pill-link">View ↗</a>
-              </div>
-            )}
-
+            <p className="about__para"><SearchHighlight text={BIO} query={searchQuery} /></p>
             <div className="about__tags">
               {HIGHLIGHTS.map((h, i) => (
                 <span key={h.label} className="about__tag"
                   style={{ transitionDelay: `${i * 0.08}s`, opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(12px)', transition: 'opacity 0.5s ease, transform 0.5s ease' }}>
-                  <span aria-hidden="true">{h.icon}</span> {h.label}
+                  <span aria-hidden="true">{h.icon}</span> <SearchHighlight text={h.label} query={searchQuery} />
                 </span>
               ))}
             </div>
             <div style={{ marginTop: '2rem' }}>
-              <a href="/resume.pdf" download="Zoheb_Khan_Resume.pdf" className="btn btn--outline">
+              <a href="/Zoheb-s-website/resume.pdf" download="Zoheb_Khan_Resume.pdf" className="btn btn--outline">
                 Download Resume
               </a>
             </div>
