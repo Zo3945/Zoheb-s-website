@@ -15,6 +15,7 @@ function Navbar({ onSearch }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('');
+  const isScrollingRef = useRef(false);
   const [eggTrigger, setEggTrigger] = useState(0);
   const [clicks, setClicks] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -26,6 +27,13 @@ function Navbar({ onSearch }) {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
       const sections = NAV_LINKS.map(l => l.href.replace('#', ''));
+      if (isScrollingRef.current) return;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      if (window.scrollY + windowHeight >= docHeight - 50) {
+        setActive('#' + sections[sections.length - 1]);
+        return;
+      }
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && window.scrollY >= el.offsetTop - 120) {
@@ -60,7 +68,9 @@ function Navbar({ onSearch }) {
   const handleNavClick = (href) => {
     setMenuOpen(false);
     setActive(href);
+    isScrollingRef.current = true;
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => { isScrollingRef.current = false; }, 1000);
   };
 
   const handleSearchChange = (e) => {
