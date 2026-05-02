@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 :root {
-  --bg-primary: #0a0a0f; --bg-secondary: #111118; --bg-card: #16161f; --bg-hover: #1e1e2a;
+  --bg-primary: #04060d; --bg-secondary: #0a0c18; --bg-card: #0f1424; --bg-hover: #1e1e2a;
   --accent: #7c6aff; --accent-dim: rgba(124,106,255,0.15); --accent-glow: rgba(124,106,255,0.35);
   --green: #4ade80; --amber: #fbbf24;
   --text-primary: #f0eeff; --text-secondary: #9090b0; --text-muted: #555570;

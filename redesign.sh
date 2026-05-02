@@ -1,3 +1,22 @@
+#!/bin/bash
+
+# Update background and CSS variables to match the HTML mockup
+python3 << 'EOF'
+with open('src/styles/App.css', 'r') as f:
+    content = f.read()
+
+# Update background colors to match mockup
+content = content.replace('--bg-primary: #0a0a0f', '--bg-primary: #04060d')
+content = content.replace('--bg-secondary: #111118', '--bg-secondary: #0a0c18')
+content = content.replace('--bg-card: #16161f', '--bg-card: #0f1424')
+
+with open('src/styles/App.css', 'w') as f:
+    f.write(content)
+print('App.css updated!')
+EOF
+
+# Update Navbar to match mockup exactly
+cat > src/components/Navbar.js << 'EOF'
 import React, { useState, useEffect, useRef } from 'react';
 import EasterEgg from './EasterEgg';
 import './Navbar.css';
@@ -157,3 +176,46 @@ function Navbar({ onSearch }) {
   );
 }
 export default Navbar;
+EOF
+
+# Update Navbar CSS to match mockup
+python3 << 'EOF'
+with open('src/components/Navbar.css', 'r') as f:
+    content = f.read()
+
+# Add navbar__right styles and fix search area
+extra = """
+.navbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.navbar__search-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(200,200,220,0.5);
+  transition: color var(--transition);
+  padding: 0;
+}
+
+.navbar__search-btn:hover {
+  color: var(--text-primary);
+}
+"""
+
+content += extra
+
+with open('src/components/Navbar.css', 'w') as f:
+    f.write(content)
+print('Navbar.css updated!')
+EOF
+
+echo "✅ Redesign applied!"
