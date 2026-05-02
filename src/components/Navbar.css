@@ -305,3 +305,15 @@ mark.search-highlight {
 .navbar__logo {
   margin-right: 2rem;
 }
+.navbar__link {
+  color: rgba(255,255,255,0.65) !important;
+  transition: color 0.2s ease, text-shadow 0.2s ease !important;
+}
+.navbar__link:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6) !important;
+}
+.navbar__link--active {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255,255,255,0.7) !important;
+}
