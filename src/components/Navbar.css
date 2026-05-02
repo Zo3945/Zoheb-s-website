@@ -269,3 +269,12 @@ mark.search-highlight {
   z-index: 100;
   pointer-events: all !important;
 }
+.navbar__link:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4);
+}
+
+.navbar__link--active {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 25px rgba(255,255,255,0.5);
+}
