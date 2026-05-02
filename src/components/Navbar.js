@@ -15,25 +15,25 @@ function Navbar({ onSearch }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('');
-  const isScrollingRef = useRef(false);
   const [eggTrigger, setEggTrigger] = useState(0);
   const [clicks, setClicks] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const timerRef = useRef(null);
   const searchRef = useRef(null);
+  const isScrollingRef = useRef(false);
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
-      const sections = NAV_LINKS.map(l => l.href.replace('#', ''));
       if (isScrollingRef.current) return;
       const windowHeight = window.innerHeight;
       const docHeight = document.documentElement.scrollHeight;
       if (window.scrollY + windowHeight >= docHeight - 50) {
-        setActive('#' + sections[sections.length - 1]);
+        setActive('#contact');
         return;
       }
+      const sections = NAV_LINKS.map(l => l.href.replace('#', ''));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && window.scrollY >= el.offsetTop - 120) {
@@ -96,6 +96,7 @@ function Navbar({ onSearch }) {
       <EasterEgg trigger={eggTrigger} />
       <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
         <div className="container navbar__inner">
+
           <button className="navbar__logo" onClick={handleLogoClick}>
             Zoheb Khan
           </button>
@@ -108,12 +109,14 @@ function Navbar({ onSearch }) {
                 {link.label}
               </button>
             ))}
-            <a href="/Zoheb-s-website/resume.pdf" download="Zoheb_Khan_Resume.pdf" className="navbar__resume">
-              Resume ↓
-            </a>
           </nav>
 
-          {/* Search - completely separate from logo */}
+          <a href="/Zoheb-s-website/resume.pdf"
+            download="Zoheb_Khan_Resume.pdf"
+            className="navbar__resume">
+            Resume ↓
+          </a>
+
           <div className="navbar__search-area">
             {searchOpen ? (
               <div className="navbar__search-container">
@@ -133,12 +136,7 @@ function Navbar({ onSearch }) {
                 }}>✕</button>
               </div>
             ) : (
-              <button
-                className="navbar__search-btn"
-                onClick={() => setSearchOpen(true)}
-                title="Search site">
-                🔍
-              </button>
+              <button className="navbar__search-btn" onClick={() => setSearchOpen(true)}>🔍</button>
             )}
           </div>
 
@@ -146,6 +144,7 @@ function Navbar({ onSearch }) {
             onClick={() => setMenuOpen(!menuOpen)}>
             <span /><span /><span />
           </button>
+
         </div>
       </header>
     </>
