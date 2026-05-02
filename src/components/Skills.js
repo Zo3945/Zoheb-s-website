@@ -1,5 +1,6 @@
 import React from 'react';
 import { useScrollAnimation } from './useScrollAnimation';
+import SearchHighlight from './SearchHighlight';
 import './Skills.css';
 
 const SKILL_CATEGORIES = [
@@ -9,7 +10,7 @@ const SKILL_CATEGORIES = [
   { title: 'Concepts', skills: ['Object-Oriented Programming', 'REST APIs', 'Data Structures & Algorithms', 'Mobile Development'] },
 ];
 
-function Skills() {
+function Skills({ searchQuery }) {
   const [ref, visible] = useScrollAnimation(0.1);
   return (
     <section id="skills" className="skills">
@@ -20,20 +21,14 @@ function Skills() {
         <div className="skills__grid" ref={ref}>
           {SKILL_CATEGORIES.map((cat, i) => (
             <div key={cat.title} className="skills__category"
-              style={{
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(40px)',
-                transition: `opacity 0.6s ease ${i * 0.12}s, transform 0.6s ease ${i * 0.12}s`
-              }}>
-              <h3 className="skills__cat-title">{cat.title}</h3>
+              style={{ opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(40px)', transition: `opacity 0.6s ease ${i * 0.12}s, transform 0.6s ease ${i * 0.12}s` }}>
+              <h3 className="skills__cat-title"><SearchHighlight text={cat.title} query={searchQuery} /></h3>
               <div className="skills__tags">
                 {cat.skills.map((s, j) => (
                   <span key={s} className="skills__tag"
-                    style={{
-                      opacity: visible ? 1 : 0,
-                      transform: visible ? 'scale(1)' : 'scale(0.8)',
-                      transition: `opacity 0.4s ease ${i * 0.12 + j * 0.05}s, transform 0.4s ease ${i * 0.12 + j * 0.05}s`
-                    }}>{s}</span>
+                    style={{ opacity: visible ? 1 : 0, transform: visible ? 'scale(1)' : 'scale(0.8)', transition: `opacity 0.4s ease ${i * 0.12 + j * 0.05}s, transform 0.4s ease ${i * 0.12 + j * 0.05}s` }}>
+                    <SearchHighlight text={s} query={searchQuery} />
+                  </span>
                 ))}
               </div>
             </div>

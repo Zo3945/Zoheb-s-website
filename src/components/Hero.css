@@ -289,3 +289,23 @@
   .hero__right { display: none; }
   .hero__name-line { font-size: clamp(2.5rem, 10vw, 4rem); }
 }
+.btn--linkedin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  border: 1px solid rgba(10, 102, 194, 0.7);
+  background: rgba(10, 102, 194, 0.3);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn--linkedin:hover {
+  background: rgba(10, 102, 194, 0.5);
+  border-color: #0a66c2;
+  box-shadow: 0 0 20px rgba(10, 102, 194, 0.4);
+}

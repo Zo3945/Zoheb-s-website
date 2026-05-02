@@ -39,22 +39,37 @@
   overflow: hidden;
 }
 
-.contact__cta-inner::after {
+
+@keyframes borderTravel {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.contact-card--linkedin {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-card--linkedin::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: var(--radius-lg);
-  padding: 2px;
-  background: linear-gradient(90deg, #7c6aff, #57f0b0, #7c6aff);
+  padding: 1px;
+  background: linear-gradient(90deg, transparent, #0a66c2, transparent);
   background-size: 300% 100%;
-  animation: borderTravel 2s linear infinite;
+  animation: linkedinGlow 8s ease-in-out infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  pointer-events: none;
+  
 }
 
-@keyframes borderTravel {
+@keyframes linkedinGlow {
+  0%, 100% { background-position: 200% 0; opacity: 0.4; }
+  50% { background-position: -200% 0; opacity: 1; }
+}
+.contact-card--linkedin::after { pointer-events: none; }
+@keyframes linkedinGlow {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
