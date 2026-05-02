@@ -317,3 +317,9 @@ mark.search-highlight {
   color: #ffffff !important;
   text-shadow: 0 0 10px rgba(255,255,255,0.7) !important;
 }
+.navbar__link:hover {
+  text-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 25px rgba(255,255,255,0.4) !important;
+}
+.navbar__link--active {
+  text-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 25px rgba(255,255,255,0.4) !important;
+}
